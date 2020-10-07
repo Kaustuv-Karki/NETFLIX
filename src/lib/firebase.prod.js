@@ -15,6 +15,9 @@ const firebaseConfig = {
   };
 
 const firebase = Firebase.initializeApp(firebaseConfig);
-seedDatabase(firebase)
+
+// //////////////////////////////////////////
+// ////// seedDatabase(firebase)///////////// 
+/////////////////////////////////////////////
 
 export { firebase }
