@@ -7,7 +7,7 @@ import { FirebaseContext } from '../context/firebase'
 import * as ROUTES from '../constants/routes'
 
 export default function SignIn() {
-
+    const  history = useHistory()
     const { firebase } = useContext(FirebaseContext);
     const [ error, setError ] = useState('')
     const [ emailAddress, setEmailAddress ] = useState('')
@@ -17,6 +17,19 @@ export default function SignIn() {
 
     const handleSignIn = (event) => {
         event.preventDefault()
+
+        // firebase auth here
+        firebase
+            .auth()
+            .signInWithEmailAndPassword(emailAddress, password)
+            .then(() => {
+                history.push(ROUTES.BROWSE)
+            })
+            .catch((error) => {
+                setEmailAddress('');
+                setPassword('');
+                setError(error.message);
+            })
     }
 
     return (
@@ -28,11 +41,14 @@ export default function SignIn() {
                 <Form.Base onSubmit={handleSignIn} method="POST" >
                     <Form.Input  
                         placeholder="Email Address"
+                        type="email"
                         value={emailAddress}
                         onChange= {e => setEmailAddress(e.target.value)}
                         />
                     <Form.Input 
                         placeholder="Password"
+                        type="password"
+                        autoComplete="off"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                         />
